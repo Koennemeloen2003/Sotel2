@@ -59,11 +59,23 @@ int main(void)
 	
 	DDRB = 0xFF;
 	DDRC = 0xFF;
-	DDRD = 0;
+	DDRD |= (1 << DDD6);
 	
 	PORTB =0;
 	PORTC = 0;
 	PORTD = 0;
+	
+	OCR0A = 0;
+	// set PWM for 50% duty cycle
+	
+	TCCR0A |= (1 << COM0A1);
+	// set none-inverting mode
+	
+	TCCR0A |= (1 << WGM01) | (1 << WGM00);
+	// set fast PWM Mode
+	
+	TCCR0B |= (1 << CS01);
+	// set prescaler to 8 and starts PWM
 	
 	while (1)
 	{
@@ -78,12 +90,18 @@ int main(void)
 			
 			serial_write_byte('.');
 		}
-		else if (input == 'A'){
+		else if (input == 'S'){
 			byte hi = serial_read_nibble();
 			byte lo = serial_read_nibble();
 			
 			shift_out_595((hi << 4) | lo);
 			serial_write_byte('!');
+		}
+		else if (input=='P'){
+			byte hi = serial_read_nibble();
+			byte lo = serial_read_nibble();
+			OCR0A = (hi << 4) | lo;
+			serial_write_byte('|');
 		}
 		else
 		{

@@ -3,29 +3,29 @@ Serial2.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  000001f2  2**0
+  0 .data         00000000  00800100  00800100  00000234  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000019e  00000000  00000000  00000054  2**1
+  1 .text         000001e0  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  000001f2  2**0
+  2 .comment      00000030  00000000  00000000  00000234  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000224  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000264  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000030  00000000  00000000  00000260  2**0
+  4 .debug_aranges 00000030  00000000  00000000  000002a0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   0000083c  00000000  00000000  00000290  2**0
+  5 .debug_info   00000895  00000000  00000000  000002d0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000070d  00000000  00000000  00000acc  2**0
+  6 .debug_abbrev 0000070d  00000000  00000000  00000b65  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   000002fa  00000000  00000000  000011d9  2**0
+  7 .debug_line   00000333  00000000  00000000  00001272  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000044  00000000  00000000  000014d4  2**2
+  8 .debug_frame  00000044  00000000  00000000  000015a8  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000397  00000000  00000000  00001518  2**0
+  9 .debug_str    00000394  00000000  00000000  000015ec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000106  00000000  00000000  000018af  2**0
+ 10 .debug_loc    0000014c  00000000  00000000  00001980  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000020  00000000  00000000  000019b5  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001acc  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 80 00 	call	0x100	; 0x100 <main>
-  78:	0c 94 cd 00 	jmp	0x19a	; 0x19a <_exit>
+  78:	0c 94 ee 00 	jmp	0x1dc	; 0x1dc <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -222,103 +222,158 @@ int main(void)
  118:	84 b9       	out	0x04, r24	; 4
 	DDRC = 0xFF;
  11a:	87 b9       	out	0x07, r24	; 7
-	DDRD = 0;
- 11c:	1a b8       	out	0x0a, r1	; 10
+	DDRD |= (1 << DDD6);
+ 11c:	8a b1       	in	r24, 0x0a	; 10
+ 11e:	80 64       	ori	r24, 0x40	; 64
+ 120:	8a b9       	out	0x0a, r24	; 10
 	
 	PORTB =0;
- 11e:	15 b8       	out	0x05, r1	; 5
+ 122:	15 b8       	out	0x05, r1	; 5
 	PORTC = 0;
- 120:	18 b8       	out	0x08, r1	; 8
+ 124:	18 b8       	out	0x08, r1	; 8
 	PORTD = 0;
- 122:	1b b8       	out	0x0b, r1	; 11
+ 126:	1b b8       	out	0x0b, r1	; 11
+	
+	OCR0A = 0;
+ 128:	17 bc       	out	0x27, r1	; 39
+	// set PWM for 50% duty cycle
+	
+	TCCR0A |= (1 << COM0A1);
+ 12a:	84 b5       	in	r24, 0x24	; 36
+ 12c:	80 68       	ori	r24, 0x80	; 128
+ 12e:	84 bd       	out	0x24, r24	; 36
+	// set none-inverting mode
+	
+	TCCR0A |= (1 << WGM01) | (1 << WGM00);
+ 130:	84 b5       	in	r24, 0x24	; 36
+ 132:	83 60       	ori	r24, 0x03	; 3
+ 134:	84 bd       	out	0x24, r24	; 36
+	// set fast PWM Mode
+	
+	TCCR0B |= (1 << CS01);
+ 136:	85 b5       	in	r24, 0x25	; 37
+ 138:	82 60       	ori	r24, 0x02	; 2
+ 13a:	85 bd       	out	0x25, r24	; 37
 	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
 }
 
 inline byte serial_read_byte()
 {
 	loop_until_bit_is_set(UCSR0A, RXC0); return UDR0;
- 124:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 128:	88 23       	and	r24, r24
- 12a:	e4 f7       	brge	.-8      	; 0x124 <main+0x24>
- 12c:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 13c:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 140:	88 23       	and	r24, r24
+ 142:	e4 f7       	brge	.-8      	; 0x13c <main+0x3c>
+ 144:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
 	
 	while (1)
 	{
 		byte input = serial_read_byte();
 		
 		if (input == 'B')
- 130:	82 34       	cpi	r24, 0x42	; 66
- 132:	99 f4       	brne	.+38     	; 0x15a <main+0x5a>
+ 148:	82 34       	cpi	r24, 0x42	; 66
+ 14a:	99 f4       	brne	.+38     	; 0x172 <main+0x72>
 		{
 			byte hi = serial_read_nibble();
- 134:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
- 138:	c8 2f       	mov	r28, r24
+ 14c:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+ 150:	c8 2f       	mov	r28, r24
 			byte lo = serial_read_nibble();
- 13a:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+ 152:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
 			
 			PORTB = (hi << 4) | lo;
- 13e:	40 e1       	ldi	r20, 0x10	; 16
- 140:	c4 9f       	mul	r28, r20
- 142:	90 01       	movw	r18, r0
- 144:	11 24       	eor	r1, r1
- 146:	82 2b       	or	r24, r18
- 148:	85 b9       	out	0x05, r24	; 5
+ 156:	40 e1       	ldi	r20, 0x10	; 16
+ 158:	c4 9f       	mul	r28, r20
+ 15a:	90 01       	movw	r18, r0
+ 15c:	11 24       	eor	r1, r1
+ 15e:	82 2b       	or	r24, r18
+ 160:	85 b9       	out	0x05, r24	; 5
 
 typedef unsigned char byte;
 
 inline void serial_write_byte(byte c)
 {
 	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
- 14a:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 14e:	85 ff       	sbrs	r24, 5
- 150:	fc cf       	rjmp	.-8      	; 0x14a <main+0x4a>
- 152:	8e e2       	ldi	r24, 0x2E	; 46
- 154:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 158:	e5 cf       	rjmp	.-54     	; 0x124 <main+0x24>
+ 162:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 166:	85 ff       	sbrs	r24, 5
+ 168:	fc cf       	rjmp	.-8      	; 0x162 <main+0x62>
+ 16a:	8e e2       	ldi	r24, 0x2E	; 46
+ 16c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 170:	e5 cf       	rjmp	.-54     	; 0x13c <main+0x3c>
 			
 			PORTB = (hi << 4) | lo;
 			
 			serial_write_byte('.');
 		}
-		else if (input == 'A'){
- 15a:	81 34       	cpi	r24, 0x41	; 65
- 15c:	b1 f4       	brne	.+44     	; 0x18a <main+0x8a>
+		else if (input == 'S'){
+ 172:	83 35       	cpi	r24, 0x53	; 83
+ 174:	b1 f4       	brne	.+44     	; 0x1a2 <main+0xa2>
 			byte hi = serial_read_nibble();
- 15e:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
- 162:	c8 2f       	mov	r28, r24
+ 176:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+ 17a:	c8 2f       	mov	r28, r24
 			byte lo = serial_read_nibble();
- 164:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+ 17c:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
 			
 			shift_out_595((hi << 4) | lo);
- 168:	50 e1       	ldi	r21, 0x10	; 16
- 16a:	c5 9f       	mul	r28, r21
- 16c:	90 01       	movw	r18, r0
- 16e:	11 24       	eor	r1, r1
- 170:	a9 01       	movw	r20, r18
- 172:	48 2b       	or	r20, r24
- 174:	ca 01       	movw	r24, r20
- 176:	0e 94 57 00 	call	0xae	; 0xae <shift_out_595>
+ 180:	50 e1       	ldi	r21, 0x10	; 16
+ 182:	c5 9f       	mul	r28, r21
+ 184:	90 01       	movw	r18, r0
+ 186:	11 24       	eor	r1, r1
+ 188:	a9 01       	movw	r20, r18
+ 18a:	48 2b       	or	r20, r24
+ 18c:	ca 01       	movw	r24, r20
+ 18e:	0e 94 57 00 	call	0xae	; 0xae <shift_out_595>
 
 typedef unsigned char byte;
 
 inline void serial_write_byte(byte c)
 {
 	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
- 17a:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 17e:	85 ff       	sbrs	r24, 5
- 180:	fc cf       	rjmp	.-8      	; 0x17a <main+0x7a>
- 182:	81 e2       	ldi	r24, 0x21	; 33
- 184:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 188:	cd cf       	rjmp	.-102    	; 0x124 <main+0x24>
- 18a:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
- 18e:	85 ff       	sbrs	r24, 5
- 190:	fc cf       	rjmp	.-8      	; 0x18a <main+0x8a>
- 192:	8f e3       	ldi	r24, 0x3F	; 63
- 194:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
- 198:	c5 cf       	rjmp	.-118    	; 0x124 <main+0x24>
+ 192:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 196:	85 ff       	sbrs	r24, 5
+ 198:	fc cf       	rjmp	.-8      	; 0x192 <main+0x92>
+ 19a:	81 e2       	ldi	r24, 0x21	; 33
+ 19c:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 1a0:	cd cf       	rjmp	.-102    	; 0x13c <main+0x3c>
+			byte lo = serial_read_nibble();
+			
+			shift_out_595((hi << 4) | lo);
+			serial_write_byte('!');
+		}
+		else if (input=='P'){
+ 1a2:	80 35       	cpi	r24, 0x50	; 80
+ 1a4:	99 f4       	brne	.+38     	; 0x1cc <main+0xcc>
+			byte hi = serial_read_nibble();
+ 1a6:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+ 1aa:	c8 2f       	mov	r28, r24
+			byte lo = serial_read_nibble();
+ 1ac:	0e 94 40 00 	call	0x80	; 0x80 <serial_read_nibble>
+			OCR0A = (hi << 4) | lo;
+ 1b0:	50 e1       	ldi	r21, 0x10	; 16
+ 1b2:	c5 9f       	mul	r28, r21
+ 1b4:	90 01       	movw	r18, r0
+ 1b6:	11 24       	eor	r1, r1
+ 1b8:	82 2b       	or	r24, r18
+ 1ba:	87 bd       	out	0x27, r24	; 39
 
-0000019a <_exit>:
- 19a:	f8 94       	cli
+typedef unsigned char byte;
 
-0000019c <__stop_program>:
- 19c:	ff cf       	rjmp	.-2      	; 0x19c <__stop_program>
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 1bc:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 1c0:	85 ff       	sbrs	r24, 5
+ 1c2:	fc cf       	rjmp	.-8      	; 0x1bc <main+0xbc>
+ 1c4:	8c e7       	ldi	r24, 0x7C	; 124
+ 1c6:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 1ca:	b8 cf       	rjmp	.-144    	; 0x13c <main+0x3c>
+ 1cc:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 1d0:	85 ff       	sbrs	r24, 5
+ 1d2:	fc cf       	rjmp	.-8      	; 0x1cc <main+0xcc>
+ 1d4:	8f e3       	ldi	r24, 0x3F	; 63
+ 1d6:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 1da:	b0 cf       	rjmp	.-160    	; 0x13c <main+0x3c>
+
+000001dc <_exit>:
+ 1dc:	f8 94       	cli
+
+000001de <__stop_program>:
+ 1de:	ff cf       	rjmp	.-2      	; 0x1de <__stop_program>
