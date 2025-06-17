@@ -63,20 +63,21 @@ int main(void)
 			if (input =='1'){
 				liedje1();
 			}
-			serial_write_byte('|');
 		}
+			serial_write_byte('|');
 		else
 		{
 			
 			serial_write_byte('?');
 		}
 		}
-		if (data_ready) {
-			data_ready = 0;
-
-		if (received_byte1 == 'D') {
-			displayGetal(received_byte2);
+		if ((SPSR & (1<<SPIF))){
+			byte input = SPDR;
+			if (input == 'D'){
+				byte lo = SPI_read_byte();
+				displayGetal(lo);
 			}
+			
 		}
 	}
 }

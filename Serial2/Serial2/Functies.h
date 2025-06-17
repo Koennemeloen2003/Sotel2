@@ -13,7 +13,6 @@
 
 void init_ports()
 {
-	DDRB = 0xFF;
 	DDRC = 0xFF;
 	DDRD =0;
 	
@@ -24,19 +23,6 @@ void init_ports()
 	
 }
 
-ISR(SPI_STC_vect)
-{
-	uint8_t received = SPDR;
-
-	if (byte_count == 0) {
-		received_byte1 = received;
-		byte_count = 1;
-		} else if (byte_count == 1) {
-		received_byte2 = received;
-		byte_count = 0;
-		data_ready = 1;
-	}
-}
 
 void SPI_SlaveInit(void)
 {
@@ -44,9 +30,7 @@ void SPI_SlaveInit(void)
 	DDRB &= ~(1<<DDB5); // SCK input
 	DDRB &= ~(1<<DDB2); // SS input
 	DDRB |=  (1<<DDB4); // MISO output
-
-	SPCR = (1<<SPE) | (1<<SPIE); // SPI enable, interrupt enable
-	sei(); // global interrupt enable
+	SPCR = (1<<SPE);
 }
 
 void play_tone(uint16_t freq) {
@@ -80,6 +64,35 @@ inline byte serial_read_byte()
 byte serial_read_nibble()
 {
 	byte nibble = serial_read_byte();
+	
+	if ((nibble >= 'A') && (nibble <= 'F'))
+	{
+		nibble -= 'A' - 10;
+	}
+	else if ((nibble >= 'a') && (nibble <= 'f'))
+	{
+		nibble -= 'a' - 10;
+	}
+	else if ((nibble >= '0') && (nibble <= '9'))
+	{
+		nibble -= '0';
+	}
+	else
+	{
+		nibble = 0;
+	}
+	
+	return nibble;
+}
+
+inline byte SPI_read_byte()
+{
+	loop_until_bit_is_set(SPSR, SPIF); return SPDR;
+}
+
+byte SPI_read_nibble()
+{
+	byte nibble = SPI_read_byte();
 	
 	if ((nibble >= 'A') && (nibble <= 'F'))
 	{

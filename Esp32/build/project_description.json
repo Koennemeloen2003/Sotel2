@@ -1,7 +1,7 @@
 {
     "version":            "1.1",
     "project_name":       "gameproto1_basis",
-    "project_version":    "03875ea-dirty",
+    "project_version":    "dfec506-dirty",
     "project_path":       "C:/Users/kaben/Documents/Github/Sotel2/Esp32",
     "idf_path":           "C:/Users/kaben/esp/v5.4/esp-idf",
     "build_dir":          "C:/Users/kaben/Documents/Github/Sotel2/Esp32/build",

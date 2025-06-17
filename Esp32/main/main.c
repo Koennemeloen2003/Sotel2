@@ -104,7 +104,7 @@ void app_sotelii(void)
 
             wifi_ontvangen = 0;
         }
-       int response1 = spi_transfer(&spi, 0x44);
+       int response1 = spi_transfer(&spi, 'D');
        int spi_ontvangen = spi_transfer(&spi, test);
         
         if (spi_ontvangen == -1)
