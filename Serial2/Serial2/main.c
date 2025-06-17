@@ -22,33 +22,41 @@ int main(void)
 {
 	init_Serial();
 	init_ports();
+	SPI_SlaveInit();
 		
 	while (1)
 	{
 		if((UCSR0A & (1<<RXC0))){
 		byte input = serial_read_byte();
-		
-		if (input == 'B')
-		{	
-			veranderBportpins();
-		}
-		else if (input == 'D'){ 
-			displayGetal();
-
+		if (input == 'D'){ 
+			byte lo = serial_read_nibble();
+			displayGetal(lo);
 		}
 		else if (input == 'U'){
-			sigmentUitzetten();
+			byte lo = serial_read_nibble();
+			sigmentUitzetten(lo);
 		}
 		else if (input == 'A'){
-			sigmentAanzetten();
+			byte lo = serial_read_nibble();
+			sigmentAanzetten(lo);
 			
 		}
 		else if (input=='F'){
-			kiesFreq();
+			byte hi = serial_read_nibble();
+			byte mid = serial_read_nibble();
+			byte lo = serial_read_nibble();
+			kiesFreq((hi << 8) |(mid << 4) | lo);
 			
 		}
 		else if (input=='N'){
-			kiesNoot();
+			byte lo = serial_read_nibble();
+			kiesNoot(lo);
+		}
+		else if (input=='B'){
+			byte hi = serial_read_nibble();
+			byte lo = serial_read_nibble();
+			display = (hi << 4) | lo;
+			byteToDisplay(display);
 		}
 		else if (input=='M'){
 			input = serial_read_byte();
@@ -62,6 +70,13 @@ int main(void)
 			
 			serial_write_byte('?');
 		}
+		}
+		if (data_ready) {
+			data_ready = 0;
+
+		if (received_byte1 == 'D') {
+			displayGetal(received_byte2);
+			}
 		}
 	}
 }

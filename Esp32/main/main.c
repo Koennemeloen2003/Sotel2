@@ -28,7 +28,6 @@ static struct udploop udploop = {};
 // Kleur-macro,  overgenomen uit display.h (van de originele versie):
 #define COLOR(R, G, B) (((R & 0x1f) << 11) | ((G & 0x3f) <<  5) | (B & 0x1f))
 
-
 void app_sotelii(void)
 {
     if (!wifi_init())
@@ -77,17 +76,23 @@ void app_sotelii(void)
 
     unsigned char wifi_ontvangen = 0, wifi_teller = 0;
 
+   int test =0;
 
     while (1) // ================= MAIN  LOOP =================
     {
         tijd_begin = esp_timer_get_time();
 
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-
+        if (!(ticks %100)){
+            test +=1;
+        }
+        if (test >= 0x10){
+            test = 0;
+        }
         ticks++;
-
+        
         if (!(ticks % 64))
-            wifi_send_if_associated(COLOR(0x1f, 0, 0), ticks, 0);
+            //wifi_send_if_associated(COLOR(0x1f, 0, 0), ticks, 0);
 
         if (wifi_ontvangen > 0)
         {
@@ -99,22 +104,19 @@ void app_sotelii(void)
 
             wifi_ontvangen = 0;
         }
-
-
-        int spi_ontvangen = spi_transfer(&spi, ticks & 0xff);
-
+       int response1 = spi_transfer(&spi, 0x44);
+       int spi_ontvangen = spi_transfer(&spi, test);
+        
         if (spi_ontvangen == -1)
         {
             printf("spi is gestopt met functioneren\n");
 
             return;
         }
-
+        
         printf(" %02x", spi_ontvangen);
-
-
         if (!(ticks % 16))
-            printf("\n (%02x) ", wifi_teller);
+            printf(" %x\n (%02x) ", test, wifi_teller);
 
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -144,6 +146,7 @@ void app_sotelii(void)
             }
         }
     }
+    
 }
 
 

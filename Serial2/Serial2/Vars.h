@@ -9,6 +9,10 @@
 #ifndef VARS_H_
 #define VARS_H_
 
+volatile uint8_t received_byte1 = 0;
+volatile uint8_t received_byte2 = 0;
+volatile uint8_t byte_count = 0;
+volatile uint8_t data_ready = 0;
 typedef unsigned char byte;
 byte display;
 

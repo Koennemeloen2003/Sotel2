@@ -24,6 +24,30 @@ void init_ports()
 	
 }
 
+ISR(SPI_STC_vect)
+{
+	uint8_t received = SPDR;
+
+	if (byte_count == 0) {
+		received_byte1 = received;
+		byte_count = 1;
+		} else if (byte_count == 1) {
+		received_byte2 = received;
+		byte_count = 0;
+		data_ready = 1;
+	}
+}
+
+void SPI_SlaveInit(void)
+{
+	DDRB &= ~(1<<DDB3); // MOSI input
+	DDRB &= ~(1<<DDB5); // SCK input
+	DDRB &= ~(1<<DDB2); // SS input
+	DDRB |=  (1<<DDB4); // MISO output
+
+	SPCR = (1<<SPE) | (1<<SPIE); // SPI enable, interrupt enable
+	sei(); // global interrupt enable
+}
 
 void play_tone(uint16_t freq) {
 	if (freq == 0) {
@@ -110,9 +134,8 @@ void init_Serial()
 }
 
 
-void displayGetal(){
-	byte lo = serial_read_nibble();
-	display =getallen[lo];
+void displayGetal(byte x){
+	display =getallen[x];
 	shift_out_595(display);
 	serial_write_byte('!');
 }
@@ -121,32 +144,28 @@ void veranderBportpins(){
 	byte hi = serial_read_nibble();
 	byte lo = serial_read_nibble();
 	
-	PORTB = (hi << 4) | lo;
+	PORTB = ((hi << 4) | lo) & ~0x02;
 	
 	serial_write_byte('.');
 }
 
-void sigmentUitzetten(){
-	byte lo = serial_read_nibble();
-	display = display & ~bitjes[lo-1];
+void sigmentUitzetten(byte x){
+	display = display & ~bitjes[x-1];
 	shift_out_595(display);
 	serial_write_byte('!');
 	
 }
 
-void sigmentAanzetten(){
-	byte lo = serial_read_nibble();
-	display = display | bitjes[lo-1];
+void sigmentAanzetten(byte x){
+	display = display | bitjes[x-1];
 	shift_out_595(display);
 	serial_write_byte('|');
 	
 }
 
-void kiesFreq(){
-	byte hi = serial_read_nibble();
-	byte mid = serial_read_nibble();
-	byte lo = serial_read_nibble();
-	uint16_t freq =(hi << 8) |(mid << 4) | lo;
+void kiesFreq(uint16_t freq){
+
+	
 	play_tone(freq);
 	_delay_ms(300);         // Laat toon even horen
 	play_tone(0);           // Stop toon
@@ -178,14 +197,20 @@ void liedje1()
 	_delay_ms(334);
 }
 
-void kiesNoot(){
-	byte lo = serial_read_nibble();
-	play_tone(toneFreqs[lo]);
+void kiesNoot(byte x){
+	
+	play_tone(toneFreqs[x]);
 	_delay_ms(300);         // Laat toon even horen
 	play_tone(0);           // Stop toon
 
 	serial_write_byte('|');
 	
+}
+
+void byteToDisplay(byte x){
+	shift_out_595(x);
+	
+	serial_write_byte(']');
 }
 
 

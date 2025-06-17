@@ -22,7 +22,7 @@ int spi_init(struct spi * this)
         .command_bits   = 0,
         .address_bits   = 0,
         .dummy_bits     = 0,
-        .clock_speed_hz = 100000, // 100 kHz
+        .clock_speed_hz = 10000, // 100 kHz
         .duty_cycle_pos = 128,    // 50% duty cycle
         .mode           = 0,
         .queue_size     = 3
