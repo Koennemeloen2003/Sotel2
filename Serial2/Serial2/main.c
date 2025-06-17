@@ -12,13 +12,14 @@
 #include <avr/sfr_defs.h>
 #include <avr/io.h>
 #include <util/delay.h>
+#include <stdbool.h>
 
 typedef unsigned char byte;
-#define TABLE_SIZE 64
-#define PI 3.14159265
 
-volatile uint8_t sine_table[TABLE_SIZE];
-volatile uint8_t index = 0;
+
+
+
+byte display;
 
 
 
@@ -57,12 +58,6 @@ byte serial_read_nibble()
 	return nibble;
 }
 
-ISR(TIMER1_COMPA_vect)
-{
-	OCR0A = sine_table[index];  // Update PWM duty cycle
-	index++;
-	if (index >= TABLE_SIZE) index = 0;
-}
 
 void init_Serial()
 {
@@ -84,84 +79,110 @@ void init_ports()
 	PORTB =0;
 	PORTC = 0;
 	PORTD = 0;
+	DDRB |= (1 << PB1); // D9 = output
 	
 }
 
-void init_sine_table()
-{
-	for (uint8_t i = 0; i < TABLE_SIZE; i++) {
-		float angle = (2 * PI * i) / TABLE_SIZE;
-		// 8-bit waarde (0-255)
-		sine_table[i] = (uint8_t)((sin(angle) * 127.5) + 127.5);
+void play_tone(uint16_t freq) {
+	if (freq == 0) {
+		// Stop PWM
+		TCCR1A = 0;
+		TCCR1B = 0;
+		PORTB &= ~(1 << PB1); // Zet D9 laag
+		return;
 	}
+
+	uint16_t top = (F_CPU / (2UL * 8UL * freq)) - 1;  // Prescaler 8
+	ICR1 = top;
+	OCR1A = top / 2;  // 50% duty cycle
+
+	// Fast PWM, TOP = ICR1
+	TCCR1A = (1 << COM1A1) | (1 << WGM11);
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
 }
 
-void init_pwm()
-{
-	DDRD |= (1 << DDD6);  // PD6 (OC0A) als output
+const uint16_t toneFreqs[11] = {
+	0,      // '0' ? stil
+	262,    // '1' ? C4
+	294,    // '2' ? D4
+	330,    // '3' ? E4
+	349,    // '4' ? F4
+	392,    // '5' ? G4
+	440,    // '6' ? A4
+	494,    // '7' ? B4
+	523,    // '8' ? C5
+	587,	// '9' ? D5
+};
 
-	// Fast PWM, non-inverted
-	TCCR0A |= (1 << COM0A1) | (1 << WGM00) | (1 << WGM01);
-	TCCR0B |= (1 << CS00); // Geen prescaler
-	OCR0A = 0; // Beginwaarde
-}
+const uint16_t getallen[16]={
+	0xBE,
+	0xA0,
+	0x3B,
+	0xB9,
+	0xA5,
+	0x9D,
+	0x9F,
+	0xB0,
+	0xBF,
+	0xBD,
+	0xB7,
+	0x8F,
+	0x0B,
+	0xAB,
+	0x1F,
+	0x17
+};
 
-void init_timer1()
-{
-	TCCR1B |= (1 << WGM12); // CTC mode
-
-	// Prescaler: 64
-	TCCR1B |= (1 << CS11) | (1 << CS10);
-
-	// Sample rate = TABLE_SIZE * frequentie
-	OCR1A = (F_CPU / (64UL * 0)) - 1;
-
-	TIMSK1 |= (1 << OCIE1A); // Enable compare interrupt
-}
-void change_timer1(float Freq)
-{
-	// Sample rate = TABLE_SIZE * frequentie
-	uint16_t sample_rate = TABLE_SIZE * Freq;
-	OCR1A = (F_CPU / (64UL * sample_rate)) - 1;
-}
+const uint16_t bitjes[8]={
+	0x01,
+	0x02,
+	0x04,
+	0x08,
+	0x10,
+	0x20,
+	0x40,
+	0x80
+	};
 
 void liedje1()
 {
-	change_timer1(659.255);
+	play_tone(3);
 	_delay_ms(167);
-	change_timer1(659.255);
+	play_tone(0);
+	play_tone(3);
 	_delay_ms(167);
-	change_timer1(0);
+	play_tone(0);
 	_delay_ms(167);
-	change_timer1(659.255);
+	play_tone(3);
 	_delay_ms(167);
-	change_timer1(0);
-	change_timer1(523.251);
+	play_tone(0);
+	play_tone(1);
 	_delay_ms(167);
-	change_timer1(659.255);
+	play_tone(0);
+	play_tone(3);
 	_delay_ms(334);
-	change_timer1(0);
+	play_tone(0);
+	play_tone(5);
+	_delay_ms(334);
+	play_tone(0);
+	_delay_ms(334);
 }
 
 int main(void)
 {
-	cli();
 	init_Serial();
 	init_ports();
-	init_sine_table();
-	init_pwm();
-	init_timer1();
-	sei();
 	
 
 
 	
 	while (1)
 	{
+		if((UCSR0A & (1<<RXC0))){
 		byte input = serial_read_byte();
 		
 		if (input == 'B')
-		{
+		{	
 			byte hi = serial_read_nibble();
 			byte lo = serial_read_nibble();
 			
@@ -169,18 +190,41 @@ int main(void)
 			
 			serial_write_byte('.');
 		}
-		else if (input == 'S'){
-			byte hi = serial_read_nibble();
+		else if (input == 'D'){
 			byte lo = serial_read_nibble();
-			
-			shift_out_595((hi << 4) | lo);
+			display =getallen[lo];
+			shift_out_595(display);
 			serial_write_byte('!');
+		}
+		else if (input == 'S'){
+			byte lo = serial_read_nibble();
+			display = display & ~bitjes[lo-1];
+			shift_out_595(display);		
+			serial_write_byte('!');
+		}
+		else if (input == 'H'){
+			byte lo = serial_read_nibble();
+			display = display | bitjes[lo-1];
+			shift_out_595(display);
+			serial_write_byte('|');
 		}
 		else if (input=='P'){
 			byte hi = serial_read_nibble();
 			byte mid = serial_read_nibble();
 			byte lo = serial_read_nibble();
-			change_timer1((hi << 8) |(mid << 4) | lo);
+			uint16_t freq =(hi << 8) |(mid << 4) | lo;
+			play_tone(freq);
+			_delay_ms(300);         // Laat toon even horen
+			play_tone(0);           // Stop toon
+
+			serial_write_byte('|');
+		}
+		else if (input=='O'){
+			byte lo = serial_read_nibble();
+			play_tone(toneFreqs[lo]);
+			_delay_ms(300);         // Laat toon even horen
+			play_tone(0);           // Stop toon
+
 			serial_write_byte('|');
 		}
 		else if (input=='M'){
@@ -192,7 +236,9 @@ int main(void)
 		}
 		else
 		{
+			
 			serial_write_byte('?');
+		}
 		}
 	}
 }
