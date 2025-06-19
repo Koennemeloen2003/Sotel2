@@ -1,4 +1,4 @@
-/* * Data converted from C:/Users/kaben/Documents/Github/Sotel2/Esp32/build/esp-idf/mbedtls/x509_crt_bundle
+/* * Data converted from D:/GitHub/Sotel2/Esp32/build/esp-idf/mbedtls/x509_crt_bundle
  */
 .data
 #if !defined (__APPLE__) && !defined (__linux__)

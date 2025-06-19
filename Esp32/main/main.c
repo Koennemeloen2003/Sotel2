@@ -92,7 +92,7 @@ void app_sotelii(void)
         ticks++;
         
         if (!(ticks % 64))
-            //wifi_send_if_associated(COLOR(0x1f, 0, 0), ticks, 0);
+           // wifi_send_if_associated(COLOR(0x1f, 0, 0), ticks, 0);
 
         if (wifi_ontvangen > 0)
         {
@@ -101,10 +101,31 @@ void app_sotelii(void)
          /* Hier kun je de ontvangen Wi-Fi gegevens verwerken. Dit doe je door
             de waarde `wifi_ontvangen` te gebruiken als het aantal te verwerken
             bytes. De te verwerken bytes staan in `udploop.buffer`. */
+            if (udploop.buffer[0] == 'R'){
+                spi_transfer(&spi, 'R');
+                sys_delay_ms(100);
+                int response2 = spi_transfer(&spi, 0x01);
+                printf(" Res: %02x", response2);
+                wifi_send_if_associated(COLOR(0x1f, 0, 0), response2, 0);
 
+            }
+            else{
+            for(int i =0; i< wifi_ontvangen;i++){
+                printf(" %02x", udploop.buffer[i]);
+                int response1 = spi_transfer(&spi, udploop.buffer[i]);
+                if (response1 == -1)
+                    {
+                    printf("spi is gestopt met functioneren\n");
+
+                     return;
+                     }
+            }
+            }
+            printf("\n");
             wifi_ontvangen = 0;
+            
         }
-       int response1 = spi_transfer(&spi, 'D');
+       /*
        int spi_ontvangen = spi_transfer(&spi, test);
         
         if (spi_ontvangen == -1)
@@ -113,8 +134,8 @@ void app_sotelii(void)
 
             return;
         }
-        
-        printf(" %02x", spi_ontvangen);
+        */
+        //printf(" %02x", spi_ontvangen);
         if (!(ticks % 16))
             printf(" %x\n (%02x) ", test, wifi_teller);
 

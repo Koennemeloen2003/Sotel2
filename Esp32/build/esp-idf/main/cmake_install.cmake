@@ -1,4 +1,4 @@
-# Install script for directory: C:/Users/kaben/Documents/Github/Sotel2/Esp32/main
+# Install script for directory: D:/GitHub/Sotel2/Esp32/main
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

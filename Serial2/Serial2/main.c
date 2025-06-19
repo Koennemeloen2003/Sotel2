@@ -27,55 +27,78 @@ int main(void)
 	while (1)
 	{
 		if((UCSR0A & (1<<RXC0))){
-		byte input = serial_read_byte();
-		if (input == 'D'){ 
-			byte lo = serial_read_nibble();
-			displayGetal(lo);
-		}
-		else if (input == 'U'){
-			byte lo = serial_read_nibble();
-			sigmentUitzetten(lo);
-		}
-		else if (input == 'A'){
-			byte lo = serial_read_nibble();
-			sigmentAanzetten(lo);
-			
-		}
-		else if (input=='F'){
-			byte hi = serial_read_nibble();
-			byte mid = serial_read_nibble();
-			byte lo = serial_read_nibble();
-			kiesFreq((hi << 8) |(mid << 4) | lo);
-			
-		}
-		else if (input=='N'){
-			byte lo = serial_read_nibble();
-			kiesNoot(lo);
-		}
-		else if (input=='B'){
-			byte hi = serial_read_nibble();
-			byte lo = serial_read_nibble();
-			display = (hi << 4) | lo;
-			byteToDisplay(display);
-		}
-		else if (input=='M'){
-			input = serial_read_byte();
-			if (input =='1'){
-				liedje1();
+			byte input = UDR0;
+			if (input == 'D'){ 
+				byte lo = serial_read_nibble();
+				displayGetal(lo);
 			}
-		}
-			serial_write_byte('|');
-		else
-		{
+			else if (input == 'U'){
+				byte lo = serial_read_nibble();
+				sigmentUitzetten(lo);
+			}
+			else if (input == 'A'){
+				byte lo = serial_read_nibble();
+				sigmentAanzetten(lo);
 			
-			serial_write_byte('?');
-		}
+			}
+			else if (input=='F'){
+				byte hi = serial_read_nibble();
+				byte mid = serial_read_nibble();
+				byte lo = serial_read_nibble();
+				kiesFreq((hi << 8) |(mid << 4) | lo);
+			
+			}
+			else if (input=='N'){
+				byte lo = serial_read_nibble();
+				kiesNoot(lo);
+			}
+			else if (input=='B'){
+				byte hi = serial_read_nibble();
+				byte lo = serial_read_nibble();
+				display = (hi << 4) | lo;
+				byteToDisplay(display);
+			}
+			else if (input=='M'){
+				input = serial_read_byte();
+				if (input =='1'){
+				liedje1();
+				serial_write_byte('|');
+					}
+				}
+			
+			else{
+				serial_write_byte('?');
+				}
 		}
 		if ((SPSR & (1<<SPIF))){
 			byte input = SPDR;
 			if (input == 'D'){
 				byte lo = SPI_read_byte();
 				displayGetal(lo);
+			}	
+			else if (input == 'U'){
+				byte lo = SPI_read_byte();
+				sigmentUitzetten(lo);
+					}
+			else if (input == 'A'){
+				byte lo = SPI_read_byte();
+				sigmentAanzetten(lo);
+					}
+			else if (input=='N'){
+				byte lo = SPI_read_byte();
+				kiesNoot(lo);
+					}
+			else if (input=='B'){
+				byte lo = SPI_read_byte();
+				display = lo;
+				serial_write_byte("]");
+				byteToDisplay(display);
+					}
+			else if (input=='R'){
+				SPDR = 1;
+				serial_write_byte("]");
+				SPI_read_byte();
+
 			}
 			
 		}
