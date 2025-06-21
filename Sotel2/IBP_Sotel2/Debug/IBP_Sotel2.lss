@@ -1,0 +1,893 @@
+
+IBP_Sotel2.elf:     file format elf32-avr
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .data         00000046  00800100  00000598  0000062c  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  1 .text         00000598  00000000  00000000  00000094  2**1
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .bss          00000001  00800146  00800146  00000672  2**0
+                  ALLOC
+  3 .comment      00000030  00000000  00000000  00000672  2**0
+                  CONTENTS, READONLY
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  000006a4  2**2
+                  CONTENTS, READONLY
+  5 .debug_aranges 00000098  00000000  00000000  000006e0  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  6 .debug_info   00001227  00000000  00000000  00000778  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 000007ef  00000000  00000000  0000199f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_line   0000074b  00000000  00000000  0000218e  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_frame  0000011c  00000000  00000000  000028dc  2**2
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_str    000004e2  00000000  00000000  000029f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_loc    00000717  00000000  00000000  00002eda  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_ranges 00000088  00000000  00000000  000035f1  2**0
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+00000000 <__vectors>:
+   0:	0c 94 34 00 	jmp	0x68	; 0x68 <__ctors_end>
+   4:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   8:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+   c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  10:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  14:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  18:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  1c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  20:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  24:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  28:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  2c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  30:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  34:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  38:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  3c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  40:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  44:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  48:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  4c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  50:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  54:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  58:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  5c:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  60:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+  64:	0c 94 51 00 	jmp	0xa2	; 0xa2 <__bad_interrupt>
+
+00000068 <__ctors_end>:
+  68:	11 24       	eor	r1, r1
+  6a:	1f be       	out	0x3f, r1	; 63
+  6c:	cf ef       	ldi	r28, 0xFF	; 255
+  6e:	d8 e0       	ldi	r29, 0x08	; 8
+  70:	de bf       	out	0x3e, r29	; 62
+  72:	cd bf       	out	0x3d, r28	; 61
+
+00000074 <__do_copy_data>:
+  74:	11 e0       	ldi	r17, 0x01	; 1
+  76:	a0 e0       	ldi	r26, 0x00	; 0
+  78:	b1 e0       	ldi	r27, 0x01	; 1
+  7a:	e8 e9       	ldi	r30, 0x98	; 152
+  7c:	f5 e0       	ldi	r31, 0x05	; 5
+  7e:	02 c0       	rjmp	.+4      	; 0x84 <__do_copy_data+0x10>
+  80:	05 90       	lpm	r0, Z+
+  82:	0d 92       	st	X+, r0
+  84:	a6 34       	cpi	r26, 0x46	; 70
+  86:	b1 07       	cpc	r27, r17
+  88:	d9 f7       	brne	.-10     	; 0x80 <__do_copy_data+0xc>
+
+0000008a <__do_clear_bss>:
+  8a:	21 e0       	ldi	r18, 0x01	; 1
+  8c:	a6 e4       	ldi	r26, 0x46	; 70
+  8e:	b1 e0       	ldi	r27, 0x01	; 1
+  90:	01 c0       	rjmp	.+2      	; 0x94 <.do_clear_bss_start>
+
+00000092 <.do_clear_bss_loop>:
+  92:	1d 92       	st	X+, r1
+
+00000094 <.do_clear_bss_start>:
+  94:	a7 34       	cpi	r26, 0x47	; 71
+  96:	b2 07       	cpc	r27, r18
+  98:	e1 f7       	brne	.-8      	; 0x92 <.do_clear_bss_loop>
+  9a:	0e 94 f0 01 	call	0x3e0	; 0x3e0 <main>
+  9e:	0c 94 ca 02 	jmp	0x594	; 0x594 <_exit>
+
+000000a2 <__bad_interrupt>:
+  a2:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
+
+000000a6 <init_ports>:
+	byte lo = serial_read_nibble();
+	
+	PORTB = ((hi << 4) | lo) & ~0x02;
+	
+	serial_write_byte('.');
+}
+  a6:	8f ef       	ldi	r24, 0xFF	; 255
+  a8:	87 b9       	out	0x07, r24	; 7
+  aa:	1a b8       	out	0x0a, r1	; 10
+  ac:	15 b8       	out	0x05, r1	; 5
+  ae:	18 b8       	out	0x08, r1	; 8
+  b0:	1b b8       	out	0x0b, r1	; 11
+  b2:	84 b1       	in	r24, 0x04	; 4
+  b4:	82 60       	ori	r24, 0x02	; 2
+  b6:	84 b9       	out	0x04, r24	; 4
+  b8:	8a b1       	in	r24, 0x0a	; 10
+  ba:	87 7f       	andi	r24, 0xF7	; 247
+  bc:	8a b9       	out	0x0a, r24	; 10
+  be:	8b b1       	in	r24, 0x0b	; 11
+  c0:	88 60       	ori	r24, 0x08	; 8
+  c2:	8b b9       	out	0x0b, r24	; 11
+  c4:	08 95       	ret
+
+000000c6 <SPI_SlaveInit>:
+  c6:	84 b1       	in	r24, 0x04	; 4
+  c8:	87 7f       	andi	r24, 0xF7	; 247
+  ca:	84 b9       	out	0x04, r24	; 4
+  cc:	84 b1       	in	r24, 0x04	; 4
+  ce:	8f 7d       	andi	r24, 0xDF	; 223
+  d0:	84 b9       	out	0x04, r24	; 4
+  d2:	84 b1       	in	r24, 0x04	; 4
+  d4:	8b 7f       	andi	r24, 0xFB	; 251
+  d6:	84 b9       	out	0x04, r24	; 4
+  d8:	84 b1       	in	r24, 0x04	; 4
+  da:	80 61       	ori	r24, 0x10	; 16
+  dc:	84 b9       	out	0x04, r24	; 4
+  de:	80 e4       	ldi	r24, 0x40	; 64
+  e0:	8c bd       	out	0x2c, r24	; 44
+  e2:	08 95       	ret
+
+000000e4 <play_tone>:
+  e4:	00 97       	sbiw	r24, 0x00	; 0
+  e6:	41 f4       	brne	.+16     	; 0xf8 <play_tone+0x14>
+  e8:	10 92 80 00 	sts	0x0080, r1	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
+  ec:	10 92 81 00 	sts	0x0081, r1	; 0x800081 <__TEXT_REGION_LENGTH__+0x7f8081>
+  f0:	85 b1       	in	r24, 0x05	; 5
+  f2:	8d 7f       	andi	r24, 0xFD	; 253
+  f4:	85 b9       	out	0x05, r24	; 5
+  f6:	08 95       	ret
+  f8:	a0 e0       	ldi	r26, 0x00	; 0
+  fa:	b0 e0       	ldi	r27, 0x00	; 0
+  fc:	88 0f       	add	r24, r24
+  fe:	99 1f       	adc	r25, r25
+ 100:	aa 1f       	adc	r26, r26
+ 102:	bb 1f       	adc	r27, r27
+ 104:	88 0f       	add	r24, r24
+ 106:	99 1f       	adc	r25, r25
+ 108:	aa 1f       	adc	r26, r26
+ 10a:	bb 1f       	adc	r27, r27
+ 10c:	9c 01       	movw	r18, r24
+ 10e:	ad 01       	movw	r20, r26
+ 110:	22 0f       	add	r18, r18
+ 112:	33 1f       	adc	r19, r19
+ 114:	44 1f       	adc	r20, r20
+ 116:	55 1f       	adc	r21, r21
+ 118:	22 0f       	add	r18, r18
+ 11a:	33 1f       	adc	r19, r19
+ 11c:	44 1f       	adc	r20, r20
+ 11e:	55 1f       	adc	r21, r21
+ 120:	60 e0       	ldi	r22, 0x00	; 0
+ 122:	74 e2       	ldi	r23, 0x24	; 36
+ 124:	84 ef       	ldi	r24, 0xF4	; 244
+ 126:	90 e0       	ldi	r25, 0x00	; 0
+ 128:	0e 94 a8 02 	call	0x550	; 0x550 <__udivmodsi4>
+ 12c:	21 50       	subi	r18, 0x01	; 1
+ 12e:	31 09       	sbc	r19, r1
+ 130:	30 93 87 00 	sts	0x0087, r19	; 0x800087 <__TEXT_REGION_LENGTH__+0x7f8087>
+ 134:	20 93 86 00 	sts	0x0086, r18	; 0x800086 <__TEXT_REGION_LENGTH__+0x7f8086>
+ 138:	36 95       	lsr	r19
+ 13a:	27 95       	ror	r18
+ 13c:	30 93 89 00 	sts	0x0089, r19	; 0x800089 <__TEXT_REGION_LENGTH__+0x7f8089>
+ 140:	20 93 88 00 	sts	0x0088, r18	; 0x800088 <__TEXT_REGION_LENGTH__+0x7f8088>
+ 144:	82 e8       	ldi	r24, 0x82	; 130
+ 146:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__TEXT_REGION_LENGTH__+0x7f8080>
+ 14a:	8a e1       	ldi	r24, 0x1A	; 26
+ 14c:	80 93 81 00 	sts	0x0081, r24	; 0x800081 <__TEXT_REGION_LENGTH__+0x7f8081>
+ 150:	08 95       	ret
+
+00000152 <serial_read_nibble>:
+ 152:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 156:	88 23       	and	r24, r24
+ 158:	e4 f7       	brge	.-8      	; 0x152 <serial_read_nibble>
+ 15a:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 15e:	9f eb       	ldi	r25, 0xBF	; 191
+ 160:	98 0f       	add	r25, r24
+ 162:	96 30       	cpi	r25, 0x06	; 6
+ 164:	10 f4       	brcc	.+4      	; 0x16a <serial_read_nibble+0x18>
+ 166:	87 53       	subi	r24, 0x37	; 55
+ 168:	08 95       	ret
+ 16a:	9f e9       	ldi	r25, 0x9F	; 159
+ 16c:	98 0f       	add	r25, r24
+ 16e:	96 30       	cpi	r25, 0x06	; 6
+ 170:	10 f4       	brcc	.+4      	; 0x176 <serial_read_nibble+0x24>
+ 172:	87 55       	subi	r24, 0x57	; 87
+ 174:	08 95       	ret
+ 176:	80 53       	subi	r24, 0x30	; 48
+ 178:	8a 30       	cpi	r24, 0x0A	; 10
+ 17a:	08 f0       	brcs	.+2      	; 0x17e <serial_read_nibble+0x2c>
+ 17c:	80 e0       	ldi	r24, 0x00	; 0
+ 17e:	08 95       	ret
+
+00000180 <shift_out_595>:
+ 180:	80 95       	com	r24
+ 182:	27 e0       	ldi	r18, 0x07	; 7
+ 184:	30 e0       	ldi	r19, 0x00	; 0
+ 186:	19 c0       	rjmp	.+50     	; 0x1ba <shift_out_595+0x3a>
+ 188:	48 2f       	mov	r20, r24
+ 18a:	50 e0       	ldi	r21, 0x00	; 0
+ 18c:	02 2e       	mov	r0, r18
+ 18e:	02 c0       	rjmp	.+4      	; 0x194 <shift_out_595+0x14>
+ 190:	55 95       	asr	r21
+ 192:	47 95       	ror	r20
+ 194:	0a 94       	dec	r0
+ 196:	e2 f7       	brpl	.-8      	; 0x190 <shift_out_595+0x10>
+ 198:	40 ff       	sbrs	r20, 0
+ 19a:	04 c0       	rjmp	.+8      	; 0x1a4 <shift_out_595+0x24>
+ 19c:	98 b1       	in	r25, 0x08	; 8
+ 19e:	91 60       	ori	r25, 0x01	; 1
+ 1a0:	98 b9       	out	0x08, r25	; 8
+ 1a2:	03 c0       	rjmp	.+6      	; 0x1aa <shift_out_595+0x2a>
+ 1a4:	98 b1       	in	r25, 0x08	; 8
+ 1a6:	9e 7f       	andi	r25, 0xFE	; 254
+ 1a8:	98 b9       	out	0x08, r25	; 8
+ 1aa:	98 b1       	in	r25, 0x08	; 8
+ 1ac:	92 60       	ori	r25, 0x02	; 2
+ 1ae:	98 b9       	out	0x08, r25	; 8
+ 1b0:	98 b1       	in	r25, 0x08	; 8
+ 1b2:	9d 7f       	andi	r25, 0xFD	; 253
+ 1b4:	98 b9       	out	0x08, r25	; 8
+ 1b6:	21 50       	subi	r18, 0x01	; 1
+ 1b8:	31 09       	sbc	r19, r1
+ 1ba:	33 23       	and	r19, r19
+ 1bc:	2c f7       	brge	.-54     	; 0x188 <shift_out_595+0x8>
+ 1be:	88 b1       	in	r24, 0x08	; 8
+ 1c0:	84 60       	ori	r24, 0x04	; 4
+ 1c2:	88 b9       	out	0x08, r24	; 8
+ 1c4:	88 b1       	in	r24, 0x08	; 8
+ 1c6:	8b 7f       	andi	r24, 0xFB	; 251
+ 1c8:	88 b9       	out	0x08, r24	; 8
+ 1ca:	88 b1       	in	r24, 0x08	; 8
+ 1cc:	8e 7f       	andi	r24, 0xFE	; 254
+ 1ce:	88 b9       	out	0x08, r24	; 8
+ 1d0:	08 95       	ret
+
+000001d2 <init_Serial>:
+ 1d2:	80 e1       	ldi	r24, 0x10	; 16
+ 1d4:	80 93 c4 00 	sts	0x00C4, r24	; 0x8000c4 <__TEXT_REGION_LENGTH__+0x7f80c4>
+ 1d8:	10 92 c5 00 	sts	0x00C5, r1	; 0x8000c5 <__TEXT_REGION_LENGTH__+0x7f80c5>
+ 1dc:	88 e1       	ldi	r24, 0x18	; 24
+ 1de:	80 93 c1 00 	sts	0x00C1, r24	; 0x8000c1 <__TEXT_REGION_LENGTH__+0x7f80c1>
+ 1e2:	86 e0       	ldi	r24, 0x06	; 6
+ 1e4:	80 93 c2 00 	sts	0x00C2, r24	; 0x8000c2 <__TEXT_REGION_LENGTH__+0x7f80c2>
+ 1e8:	08 95       	ret
+
+000001ea <displayGetal>:
+ 1ea:	e8 2f       	mov	r30, r24
+ 1ec:	f0 e0       	ldi	r31, 0x00	; 0
+ 1ee:	ee 0f       	add	r30, r30
+ 1f0:	ff 1f       	adc	r31, r31
+ 1f2:	ea 5d       	subi	r30, 0xDA	; 218
+ 1f4:	fe 4f       	sbci	r31, 0xFE	; 254
+ 1f6:	80 81       	ld	r24, Z
+ 1f8:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <__data_end>
+ 1fc:	0e 94 c0 00 	call	0x180	; 0x180 <shift_out_595>
+ 200:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 204:	85 ff       	sbrs	r24, 5
+ 206:	fc cf       	rjmp	.-8      	; 0x200 <displayGetal+0x16>
+ 208:	8e e2       	ldi	r24, 0x2E	; 46
+ 20a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 20e:	08 95       	ret
+
+00000210 <sigmentUitzetten>:
+
+void sigmentUitzetten(byte x){
+	display = display & ~bitjes[x-1];
+ 210:	e8 2f       	mov	r30, r24
+ 212:	f0 e0       	ldi	r31, 0x00	; 0
+ 214:	31 97       	sbiw	r30, 0x01	; 1
+ 216:	ee 0f       	add	r30, r30
+ 218:	ff 1f       	adc	r31, r31
+ 21a:	ea 5e       	subi	r30, 0xEA	; 234
+ 21c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 21e:	80 81       	ld	r24, Z
+ 220:	80 95       	com	r24
+ 222:	90 91 46 01 	lds	r25, 0x0146	; 0x800146 <__data_end>
+ 226:	89 23       	and	r24, r25
+ 228:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <__data_end>
+	shift_out_595(display);
+ 22c:	0e 94 c0 00 	call	0x180	; 0x180 <shift_out_595>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 230:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 234:	85 ff       	sbrs	r24, 5
+ 236:	fc cf       	rjmp	.-8      	; 0x230 <sigmentUitzetten+0x20>
+ 238:	8e e2       	ldi	r24, 0x2E	; 46
+ 23a:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 23e:	08 95       	ret
+
+00000240 <sigmentAanzetten>:
+	serial_write_byte('.');
+	
+}
+
+void sigmentAanzetten(byte x){
+	display = display | bitjes[x-1];
+ 240:	e8 2f       	mov	r30, r24
+ 242:	f0 e0       	ldi	r31, 0x00	; 0
+ 244:	31 97       	sbiw	r30, 0x01	; 1
+ 246:	ee 0f       	add	r30, r30
+ 248:	ff 1f       	adc	r31, r31
+ 24a:	ea 5e       	subi	r30, 0xEA	; 234
+ 24c:	fe 4f       	sbci	r31, 0xFE	; 254
+ 24e:	80 81       	ld	r24, Z
+ 250:	90 91 46 01 	lds	r25, 0x0146	; 0x800146 <__data_end>
+ 254:	89 2b       	or	r24, r25
+ 256:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <__data_end>
+	shift_out_595(display);
+ 25a:	0e 94 c0 00 	call	0x180	; 0x180 <shift_out_595>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 25e:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 262:	85 ff       	sbrs	r24, 5
+ 264:	fc cf       	rjmp	.-8      	; 0x25e <sigmentAanzetten+0x1e>
+ 266:	8e e2       	ldi	r24, 0x2E	; 46
+ 268:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 26c:	08 95       	ret
+
+0000026e <kiesFreq>:
+}
+
+void kiesFreq(uint16_t freq){
+
+	
+	play_tone(freq);
+ 26e:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	#else
+		//round up by default
+		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
+	#endif
+
+	__builtin_avr_delay_cycles(__ticks_dc);
+ 272:	2f ef       	ldi	r18, 0xFF	; 255
+ 274:	85 ea       	ldi	r24, 0xA5	; 165
+ 276:	9e e0       	ldi	r25, 0x0E	; 14
+ 278:	21 50       	subi	r18, 0x01	; 1
+ 27a:	80 40       	sbci	r24, 0x00	; 0
+ 27c:	90 40       	sbci	r25, 0x00	; 0
+ 27e:	e1 f7       	brne	.-8      	; 0x278 <kiesFreq+0xa>
+ 280:	00 c0       	rjmp	.+0      	; 0x282 <kiesFreq+0x14>
+ 282:	00 00       	nop
+	_delay_ms(300);         // Laat toon even horen
+	play_tone(0);           // Stop toon
+ 284:	80 e0       	ldi	r24, 0x00	; 0
+ 286:	90 e0       	ldi	r25, 0x00	; 0
+ 288:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 28c:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 290:	85 ff       	sbrs	r24, 5
+ 292:	fc cf       	rjmp	.-8      	; 0x28c <kiesFreq+0x1e>
+ 294:	8e e2       	ldi	r24, 0x2E	; 46
+ 296:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 29a:	08 95       	ret
+
+0000029c <liedje1>:
+	
+}
+
+void liedje1()
+{
+	play_tone(3);
+ 29c:	83 e0       	ldi	r24, 0x03	; 3
+ 29e:	90 e0       	ldi	r25, 0x00	; 0
+ 2a0:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 2a4:	2f e7       	ldi	r18, 0x7F	; 127
+ 2a6:	87 e2       	ldi	r24, 0x27	; 39
+ 2a8:	98 e0       	ldi	r25, 0x08	; 8
+ 2aa:	21 50       	subi	r18, 0x01	; 1
+ 2ac:	80 40       	sbci	r24, 0x00	; 0
+ 2ae:	90 40       	sbci	r25, 0x00	; 0
+ 2b0:	e1 f7       	brne	.-8      	; 0x2aa <liedje1+0xe>
+ 2b2:	00 c0       	rjmp	.+0      	; 0x2b4 <liedje1+0x18>
+ 2b4:	00 00       	nop
+	_delay_ms(167);
+	play_tone(0);
+ 2b6:	80 e0       	ldi	r24, 0x00	; 0
+ 2b8:	90 e0       	ldi	r25, 0x00	; 0
+ 2ba:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	play_tone(3);
+ 2be:	83 e0       	ldi	r24, 0x03	; 3
+ 2c0:	90 e0       	ldi	r25, 0x00	; 0
+ 2c2:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 2c6:	2f e7       	ldi	r18, 0x7F	; 127
+ 2c8:	87 e2       	ldi	r24, 0x27	; 39
+ 2ca:	98 e0       	ldi	r25, 0x08	; 8
+ 2cc:	21 50       	subi	r18, 0x01	; 1
+ 2ce:	80 40       	sbci	r24, 0x00	; 0
+ 2d0:	90 40       	sbci	r25, 0x00	; 0
+ 2d2:	e1 f7       	brne	.-8      	; 0x2cc <liedje1+0x30>
+ 2d4:	00 c0       	rjmp	.+0      	; 0x2d6 <liedje1+0x3a>
+ 2d6:	00 00       	nop
+	_delay_ms(167);
+	play_tone(0);
+ 2d8:	80 e0       	ldi	r24, 0x00	; 0
+ 2da:	90 e0       	ldi	r25, 0x00	; 0
+ 2dc:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 2e0:	2f e7       	ldi	r18, 0x7F	; 127
+ 2e2:	87 e2       	ldi	r24, 0x27	; 39
+ 2e4:	98 e0       	ldi	r25, 0x08	; 8
+ 2e6:	21 50       	subi	r18, 0x01	; 1
+ 2e8:	80 40       	sbci	r24, 0x00	; 0
+ 2ea:	90 40       	sbci	r25, 0x00	; 0
+ 2ec:	e1 f7       	brne	.-8      	; 0x2e6 <liedje1+0x4a>
+ 2ee:	00 c0       	rjmp	.+0      	; 0x2f0 <liedje1+0x54>
+ 2f0:	00 00       	nop
+	_delay_ms(167);
+	play_tone(3);
+ 2f2:	83 e0       	ldi	r24, 0x03	; 3
+ 2f4:	90 e0       	ldi	r25, 0x00	; 0
+ 2f6:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 2fa:	2f e7       	ldi	r18, 0x7F	; 127
+ 2fc:	87 e2       	ldi	r24, 0x27	; 39
+ 2fe:	98 e0       	ldi	r25, 0x08	; 8
+ 300:	21 50       	subi	r18, 0x01	; 1
+ 302:	80 40       	sbci	r24, 0x00	; 0
+ 304:	90 40       	sbci	r25, 0x00	; 0
+ 306:	e1 f7       	brne	.-8      	; 0x300 <liedje1+0x64>
+ 308:	00 c0       	rjmp	.+0      	; 0x30a <liedje1+0x6e>
+ 30a:	00 00       	nop
+	_delay_ms(167);
+	play_tone(0);
+ 30c:	80 e0       	ldi	r24, 0x00	; 0
+ 30e:	90 e0       	ldi	r25, 0x00	; 0
+ 310:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	play_tone(1);
+ 314:	81 e0       	ldi	r24, 0x01	; 1
+ 316:	90 e0       	ldi	r25, 0x00	; 0
+ 318:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 31c:	2f e7       	ldi	r18, 0x7F	; 127
+ 31e:	87 e2       	ldi	r24, 0x27	; 39
+ 320:	98 e0       	ldi	r25, 0x08	; 8
+ 322:	21 50       	subi	r18, 0x01	; 1
+ 324:	80 40       	sbci	r24, 0x00	; 0
+ 326:	90 40       	sbci	r25, 0x00	; 0
+ 328:	e1 f7       	brne	.-8      	; 0x322 <liedje1+0x86>
+ 32a:	00 c0       	rjmp	.+0      	; 0x32c <liedje1+0x90>
+ 32c:	00 00       	nop
+	_delay_ms(167);
+	play_tone(0);
+ 32e:	80 e0       	ldi	r24, 0x00	; 0
+ 330:	90 e0       	ldi	r25, 0x00	; 0
+ 332:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	play_tone(3);
+ 336:	83 e0       	ldi	r24, 0x03	; 3
+ 338:	90 e0       	ldi	r25, 0x00	; 0
+ 33a:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 33e:	2f ef       	ldi	r18, 0xFF	; 255
+ 340:	8e e4       	ldi	r24, 0x4E	; 78
+ 342:	90 e1       	ldi	r25, 0x10	; 16
+ 344:	21 50       	subi	r18, 0x01	; 1
+ 346:	80 40       	sbci	r24, 0x00	; 0
+ 348:	90 40       	sbci	r25, 0x00	; 0
+ 34a:	e1 f7       	brne	.-8      	; 0x344 <liedje1+0xa8>
+ 34c:	00 c0       	rjmp	.+0      	; 0x34e <liedje1+0xb2>
+ 34e:	00 00       	nop
+	_delay_ms(334);
+	play_tone(0);
+ 350:	80 e0       	ldi	r24, 0x00	; 0
+ 352:	90 e0       	ldi	r25, 0x00	; 0
+ 354:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	play_tone(5);
+ 358:	85 e0       	ldi	r24, 0x05	; 5
+ 35a:	90 e0       	ldi	r25, 0x00	; 0
+ 35c:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 360:	2f ef       	ldi	r18, 0xFF	; 255
+ 362:	8e e4       	ldi	r24, 0x4E	; 78
+ 364:	90 e1       	ldi	r25, 0x10	; 16
+ 366:	21 50       	subi	r18, 0x01	; 1
+ 368:	80 40       	sbci	r24, 0x00	; 0
+ 36a:	90 40       	sbci	r25, 0x00	; 0
+ 36c:	e1 f7       	brne	.-8      	; 0x366 <liedje1+0xca>
+ 36e:	00 c0       	rjmp	.+0      	; 0x370 <liedje1+0xd4>
+ 370:	00 00       	nop
+	_delay_ms(334);
+	play_tone(0);
+ 372:	80 e0       	ldi	r24, 0x00	; 0
+ 374:	90 e0       	ldi	r25, 0x00	; 0
+ 376:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 37a:	2f ef       	ldi	r18, 0xFF	; 255
+ 37c:	8e e4       	ldi	r24, 0x4E	; 78
+ 37e:	90 e1       	ldi	r25, 0x10	; 16
+ 380:	21 50       	subi	r18, 0x01	; 1
+ 382:	80 40       	sbci	r24, 0x00	; 0
+ 384:	90 40       	sbci	r25, 0x00	; 0
+ 386:	e1 f7       	brne	.-8      	; 0x380 <liedje1+0xe4>
+ 388:	00 c0       	rjmp	.+0      	; 0x38a <liedje1+0xee>
+ 38a:	00 00       	nop
+ 38c:	08 95       	ret
+
+0000038e <kiesNoot>:
+	_delay_ms(334);
+}
+
+void kiesNoot(byte x){
+	
+	play_tone(toneFreqs[x]);
+ 38e:	e8 2f       	mov	r30, r24
+ 390:	f0 e0       	ldi	r31, 0x00	; 0
+ 392:	ee 0f       	add	r30, r30
+ 394:	ff 1f       	adc	r31, r31
+ 396:	ee 5f       	subi	r30, 0xFE	; 254
+ 398:	fe 4f       	sbci	r31, 0xFE	; 254
+ 39a:	80 81       	ld	r24, Z
+ 39c:	91 81       	ldd	r25, Z+1	; 0x01
+ 39e:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+ 3a2:	2f ef       	ldi	r18, 0xFF	; 255
+ 3a4:	85 ea       	ldi	r24, 0xA5	; 165
+ 3a6:	9e e0       	ldi	r25, 0x0E	; 14
+ 3a8:	21 50       	subi	r18, 0x01	; 1
+ 3aa:	80 40       	sbci	r24, 0x00	; 0
+ 3ac:	90 40       	sbci	r25, 0x00	; 0
+ 3ae:	e1 f7       	brne	.-8      	; 0x3a8 <kiesNoot+0x1a>
+ 3b0:	00 c0       	rjmp	.+0      	; 0x3b2 <kiesNoot+0x24>
+ 3b2:	00 00       	nop
+	_delay_ms(300);         // Laat toon even horen
+	play_tone(0);           // Stop toon
+ 3b4:	80 e0       	ldi	r24, 0x00	; 0
+ 3b6:	90 e0       	ldi	r25, 0x00	; 0
+ 3b8:	0e 94 72 00 	call	0xe4	; 0xe4 <play_tone>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 3bc:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 3c0:	85 ff       	sbrs	r24, 5
+ 3c2:	fc cf       	rjmp	.-8      	; 0x3bc <kiesNoot+0x2e>
+ 3c4:	8e e2       	ldi	r24, 0x2E	; 46
+ 3c6:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 3ca:	08 95       	ret
+
+000003cc <byteToDisplay>:
+	serial_write_byte('.');
+	
+}
+
+void byteToDisplay(byte x){
+	shift_out_595(x);
+ 3cc:	0e 94 c0 00 	call	0x180	; 0x180 <shift_out_595>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 3d0:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 3d4:	85 ff       	sbrs	r24, 5
+ 3d6:	fc cf       	rjmp	.-8      	; 0x3d0 <byteToDisplay+0x4>
+ 3d8:	8e e2       	ldi	r24, 0x2E	; 46
+ 3da:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 3de:	08 95       	ret
+
+000003e0 <main>:
+
+
+
+int main(void)
+{
+	init_Serial();
+ 3e0:	0e 94 e9 00 	call	0x1d2	; 0x1d2 <init_Serial>
+	init_ports();
+ 3e4:	0e 94 53 00 	call	0xa6	; 0xa6 <init_ports>
+	SPI_SlaveInit();
+ 3e8:	0e 94 63 00 	call	0xc6	; 0xc6 <SPI_SlaveInit>
+		
+	while (1)
+	{
+		if((UCSR0A & (1<<RXC0))){
+ 3ec:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 3f0:	88 23       	and	r24, r24
+ 3f2:	0c f0       	brlt	.+2      	; 0x3f6 <main+0x16>
+ 3f4:	64 c0       	rjmp	.+200    	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			byte input = UDR0;
+ 3f6:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+			if (input == 'D'){ 
+ 3fa:	84 34       	cpi	r24, 0x44	; 68
+ 3fc:	29 f4       	brne	.+10     	; 0x408 <__EEPROM_REGION_LENGTH__+0x8>
+				byte lo = serial_read_nibble();
+ 3fe:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				displayGetal(lo);
+ 402:	0e 94 f5 00 	call	0x1ea	; 0x1ea <displayGetal>
+ 406:	5b c0       	rjmp	.+182    	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			}
+			else if (input == 'U'){
+ 408:	85 35       	cpi	r24, 0x55	; 85
+ 40a:	29 f4       	brne	.+10     	; 0x416 <__EEPROM_REGION_LENGTH__+0x16>
+				byte lo = serial_read_nibble();
+ 40c:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				sigmentUitzetten(lo);
+ 410:	0e 94 08 01 	call	0x210	; 0x210 <sigmentUitzetten>
+ 414:	54 c0       	rjmp	.+168    	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			}
+			else if (input == 'A'){
+ 416:	81 34       	cpi	r24, 0x41	; 65
+ 418:	29 f4       	brne	.+10     	; 0x424 <__EEPROM_REGION_LENGTH__+0x24>
+				byte lo = serial_read_nibble();
+ 41a:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				sigmentAanzetten(lo);
+ 41e:	0e 94 20 01 	call	0x240	; 0x240 <sigmentAanzetten>
+ 422:	4d c0       	rjmp	.+154    	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			
+			}
+			else if (input=='F'){
+ 424:	86 34       	cpi	r24, 0x46	; 70
+ 426:	c1 f4       	brne	.+48     	; 0x458 <__EEPROM_REGION_LENGTH__+0x58>
+				byte hi = serial_read_nibble();
+ 428:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+ 42c:	d8 2f       	mov	r29, r24
+				byte mid = serial_read_nibble();
+ 42e:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+ 432:	c8 2f       	mov	r28, r24
+				byte lo = serial_read_nibble();
+ 434:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				kiesFreq((hi << 8) |(mid << 4) | lo);
+ 438:	2d 2f       	mov	r18, r29
+ 43a:	30 e0       	ldi	r19, 0x00	; 0
+ 43c:	52 2f       	mov	r21, r18
+ 43e:	44 27       	eor	r20, r20
+ 440:	90 e1       	ldi	r25, 0x10	; 16
+ 442:	c9 9f       	mul	r28, r25
+ 444:	90 01       	movw	r18, r0
+ 446:	11 24       	eor	r1, r1
+ 448:	24 2b       	or	r18, r20
+ 44a:	35 2b       	or	r19, r21
+ 44c:	a9 01       	movw	r20, r18
+ 44e:	48 2b       	or	r20, r24
+ 450:	ca 01       	movw	r24, r20
+ 452:	0e 94 37 01 	call	0x26e	; 0x26e <kiesFreq>
+ 456:	33 c0       	rjmp	.+102    	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			
+			}
+			else if (input=='N'){
+ 458:	8e 34       	cpi	r24, 0x4E	; 78
+ 45a:	29 f4       	brne	.+10     	; 0x466 <__EEPROM_REGION_LENGTH__+0x66>
+				byte lo = serial_read_nibble();
+ 45c:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				kiesNoot(lo);
+ 460:	0e 94 c7 01 	call	0x38e	; 0x38e <kiesNoot>
+ 464:	2c c0       	rjmp	.+88     	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			}
+			else if (input=='B'){
+ 466:	82 34       	cpi	r24, 0x42	; 66
+ 468:	79 f4       	brne	.+30     	; 0x488 <__EEPROM_REGION_LENGTH__+0x88>
+				byte hi = serial_read_nibble();
+ 46a:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+ 46e:	c8 2f       	mov	r28, r24
+				byte lo = serial_read_nibble();
+ 470:	0e 94 a9 00 	call	0x152	; 0x152 <serial_read_nibble>
+				display = (hi << 4) | lo;
+ 474:	50 e1       	ldi	r21, 0x10	; 16
+ 476:	c5 9f       	mul	r28, r21
+ 478:	90 01       	movw	r18, r0
+ 47a:	11 24       	eor	r1, r1
+ 47c:	82 2b       	or	r24, r18
+ 47e:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <__data_end>
+				byteToDisplay(display);
+ 482:	0e 94 e6 01 	call	0x3cc	; 0x3cc <byteToDisplay>
+ 486:	1b c0       	rjmp	.+54     	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+			}
+			else if (input=='M'){
+ 488:	8d 34       	cpi	r24, 0x4D	; 77
+ 48a:	91 f4       	brne	.+36     	; 0x4b0 <__EEPROM_REGION_LENGTH__+0xb0>
+}
+
+inline byte serial_read_byte()
+{
+	loop_until_bit_is_set(UCSR0A, RXC0); return UDR0;
+ 48c:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 490:	88 23       	and	r24, r24
+ 492:	e4 f7       	brge	.-8      	; 0x48c <__EEPROM_REGION_LENGTH__+0x8c>
+ 494:	80 91 c6 00 	lds	r24, 0x00C6	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+				input = serial_read_byte();
+				if (input =='1'){
+ 498:	81 33       	cpi	r24, 0x31	; 49
+ 49a:	89 f4       	brne	.+34     	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+				liedje1();
+ 49c:	0e 94 4e 01 	call	0x29c	; 0x29c <liedje1>
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 4a0:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 4a4:	85 ff       	sbrs	r24, 5
+ 4a6:	fc cf       	rjmp	.-8      	; 0x4a0 <__EEPROM_REGION_LENGTH__+0xa0>
+ 4a8:	8e e2       	ldi	r24, 0x2E	; 46
+ 4aa:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+ 4ae:	07 c0       	rjmp	.+14     	; 0x4be <__EEPROM_REGION_LENGTH__+0xbe>
+ 4b0:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 4b4:	85 ff       	sbrs	r24, 5
+ 4b6:	fc cf       	rjmp	.-8      	; 0x4b0 <__EEPROM_REGION_LENGTH__+0xb0>
+ 4b8:	8f e3       	ldi	r24, 0x3F	; 63
+ 4ba:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+			
+			else{
+				serial_write_byte('?');
+				}
+		}
+		if ((SPSR & (1<<SPIF))){
+ 4be:	0d b4       	in	r0, 0x2d	; 45
+ 4c0:	07 fe       	sbrs	r0, 7
+ 4c2:	94 cf       	rjmp	.-216    	; 0x3ec <main+0xc>
+			byte input = SPDR;
+ 4c4:	8e b5       	in	r24, 0x2e	; 46
+			if (input == 'D'){
+ 4c6:	84 34       	cpi	r24, 0x44	; 68
+ 4c8:	39 f4       	brne	.+14     	; 0x4d8 <__EEPROM_REGION_LENGTH__+0xd8>
+	return nibble;
+}
+
+inline byte SPI_read_byte()
+{
+	loop_until_bit_is_set(SPSR, SPIF); return SPDR;
+ 4ca:	0d b4       	in	r0, 0x2d	; 45
+ 4cc:	07 fe       	sbrs	r0, 7
+ 4ce:	fd cf       	rjmp	.-6      	; 0x4ca <__EEPROM_REGION_LENGTH__+0xca>
+ 4d0:	8e b5       	in	r24, 0x2e	; 46
+				byte lo = SPI_read_byte();
+				displayGetal(lo);
+ 4d2:	0e 94 f5 00 	call	0x1ea	; 0x1ea <displayGetal>
+ 4d6:	8a cf       	rjmp	.-236    	; 0x3ec <main+0xc>
+			}
+			else if (input == 'U'){
+ 4d8:	85 35       	cpi	r24, 0x55	; 85
+ 4da:	39 f4       	brne	.+14     	; 0x4ea <__EEPROM_REGION_LENGTH__+0xea>
+ 4dc:	0d b4       	in	r0, 0x2d	; 45
+ 4de:	07 fe       	sbrs	r0, 7
+ 4e0:	fd cf       	rjmp	.-6      	; 0x4dc <__EEPROM_REGION_LENGTH__+0xdc>
+ 4e2:	8e b5       	in	r24, 0x2e	; 46
+				byte lo = SPI_read_byte();
+				sigmentUitzetten(lo);
+ 4e4:	0e 94 08 01 	call	0x210	; 0x210 <sigmentUitzetten>
+ 4e8:	81 cf       	rjmp	.-254    	; 0x3ec <main+0xc>
+					}
+			else if (input == 'A'){
+ 4ea:	81 34       	cpi	r24, 0x41	; 65
+ 4ec:	39 f4       	brne	.+14     	; 0x4fc <__EEPROM_REGION_LENGTH__+0xfc>
+ 4ee:	0d b4       	in	r0, 0x2d	; 45
+ 4f0:	07 fe       	sbrs	r0, 7
+ 4f2:	fd cf       	rjmp	.-6      	; 0x4ee <__EEPROM_REGION_LENGTH__+0xee>
+ 4f4:	8e b5       	in	r24, 0x2e	; 46
+				byte lo = SPI_read_byte();
+				sigmentAanzetten(lo);
+ 4f6:	0e 94 20 01 	call	0x240	; 0x240 <sigmentAanzetten>
+ 4fa:	78 cf       	rjmp	.-272    	; 0x3ec <main+0xc>
+					}
+			else if (input=='N'){
+ 4fc:	8e 34       	cpi	r24, 0x4E	; 78
+ 4fe:	39 f4       	brne	.+14     	; 0x50e <__EEPROM_REGION_LENGTH__+0x10e>
+ 500:	0d b4       	in	r0, 0x2d	; 45
+ 502:	07 fe       	sbrs	r0, 7
+ 504:	fd cf       	rjmp	.-6      	; 0x500 <__EEPROM_REGION_LENGTH__+0x100>
+ 506:	8e b5       	in	r24, 0x2e	; 46
+				byte lo = SPI_read_byte();
+				kiesNoot(lo);
+ 508:	0e 94 c7 01 	call	0x38e	; 0x38e <kiesNoot>
+ 50c:	6f cf       	rjmp	.-290    	; 0x3ec <main+0xc>
+					}
+			else if (input=='B'){
+ 50e:	82 34       	cpi	r24, 0x42	; 66
+ 510:	49 f4       	brne	.+18     	; 0x524 <__EEPROM_REGION_LENGTH__+0x124>
+ 512:	0d b4       	in	r0, 0x2d	; 45
+ 514:	07 fe       	sbrs	r0, 7
+ 516:	fd cf       	rjmp	.-6      	; 0x512 <__EEPROM_REGION_LENGTH__+0x112>
+ 518:	8e b5       	in	r24, 0x2e	; 46
+				byte lo = SPI_read_byte();
+				display = lo;
+ 51a:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <__data_end>
+				byteToDisplay(display);
+ 51e:	0e 94 e6 01 	call	0x3cc	; 0x3cc <byteToDisplay>
+ 522:	64 cf       	rjmp	.-312    	; 0x3ec <main+0xc>
+					}
+			else if (input=='R'){
+ 524:	82 35       	cpi	r24, 0x52	; 82
+ 526:	09 f0       	breq	.+2      	; 0x52a <__EEPROM_REGION_LENGTH__+0x12a>
+ 528:	61 cf       	rjmp	.-318    	; 0x3ec <main+0xc>
+				if (PIND & (1 << PD3)) {
+ 52a:	4b 9b       	sbis	0x09, 3	; 9
+ 52c:	03 c0       	rjmp	.+6      	; 0x534 <__EEPROM_REGION_LENGTH__+0x134>
+					SPDR = 0xff;
+ 52e:	8f ef       	ldi	r24, 0xFF	; 255
+ 530:	8e bd       	out	0x2e, r24	; 46
+ 532:	01 c0       	rjmp	.+2      	; 0x536 <__EEPROM_REGION_LENGTH__+0x136>
+					} 
+				else {
+					SPDR = 0x00;
+ 534:	1e bc       	out	0x2e, r1	; 46
+	TCCR1B = (1 << WGM13) | (1 << WGM12) | (1 << CS11); // Prescaler = 8
+}
+
+inline void serial_write_byte(byte c)
+{
+	loop_until_bit_is_set(UCSR0A, UDRE0); UDR0 = c;
+ 536:	80 91 c0 00 	lds	r24, 0x00C0	; 0x8000c0 <__TEXT_REGION_LENGTH__+0x7f80c0>
+ 53a:	85 ff       	sbrs	r24, 5
+ 53c:	fc cf       	rjmp	.-8      	; 0x536 <__EEPROM_REGION_LENGTH__+0x136>
+ 53e:	80 e0       	ldi	r24, 0x00	; 0
+ 540:	91 e0       	ldi	r25, 0x01	; 1
+ 542:	80 93 c6 00 	sts	0x00C6, r24	; 0x8000c6 <__TEXT_REGION_LENGTH__+0x7f80c6>
+	return nibble;
+}
+
+inline byte SPI_read_byte()
+{
+	loop_until_bit_is_set(SPSR, SPIF); return SPDR;
+ 546:	0d b4       	in	r0, 0x2d	; 45
+ 548:	07 fe       	sbrs	r0, 7
+ 54a:	fd cf       	rjmp	.-6      	; 0x546 <__EEPROM_REGION_LENGTH__+0x146>
+ 54c:	8e b5       	in	r24, 0x2e	; 46
+ 54e:	4e cf       	rjmp	.-356    	; 0x3ec <main+0xc>
+
+00000550 <__udivmodsi4>:
+ 550:	a1 e2       	ldi	r26, 0x21	; 33
+ 552:	1a 2e       	mov	r1, r26
+ 554:	aa 1b       	sub	r26, r26
+ 556:	bb 1b       	sub	r27, r27
+ 558:	fd 01       	movw	r30, r26
+ 55a:	0d c0       	rjmp	.+26     	; 0x576 <__udivmodsi4_ep>
+
+0000055c <__udivmodsi4_loop>:
+ 55c:	aa 1f       	adc	r26, r26
+ 55e:	bb 1f       	adc	r27, r27
+ 560:	ee 1f       	adc	r30, r30
+ 562:	ff 1f       	adc	r31, r31
+ 564:	a2 17       	cp	r26, r18
+ 566:	b3 07       	cpc	r27, r19
+ 568:	e4 07       	cpc	r30, r20
+ 56a:	f5 07       	cpc	r31, r21
+ 56c:	20 f0       	brcs	.+8      	; 0x576 <__udivmodsi4_ep>
+ 56e:	a2 1b       	sub	r26, r18
+ 570:	b3 0b       	sbc	r27, r19
+ 572:	e4 0b       	sbc	r30, r20
+ 574:	f5 0b       	sbc	r31, r21
+
+00000576 <__udivmodsi4_ep>:
+ 576:	66 1f       	adc	r22, r22
+ 578:	77 1f       	adc	r23, r23
+ 57a:	88 1f       	adc	r24, r24
+ 57c:	99 1f       	adc	r25, r25
+ 57e:	1a 94       	dec	r1
+ 580:	69 f7       	brne	.-38     	; 0x55c <__udivmodsi4_loop>
+ 582:	60 95       	com	r22
+ 584:	70 95       	com	r23
+ 586:	80 95       	com	r24
+ 588:	90 95       	com	r25
+ 58a:	9b 01       	movw	r18, r22
+ 58c:	ac 01       	movw	r20, r24
+ 58e:	bd 01       	movw	r22, r26
+ 590:	cf 01       	movw	r24, r30
+ 592:	08 95       	ret
+
+00000594 <_exit>:
+ 594:	f8 94       	cli
+
+00000596 <__stop_program>:
+ 596:	ff cf       	rjmp	.-2      	; 0x596 <__stop_program>

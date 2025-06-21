@@ -1,1 +1,0 @@
-D:\avrdude-v8.0\avrdude -p atmega328p -c arduino -P com7 -b 57600 -D -D -U flash:w:Serial2.hex
