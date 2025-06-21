@@ -125,19 +125,9 @@ void app_sotelii(void)
             wifi_ontvangen = 0;
             
         }
-       /*
-       int spi_ontvangen = spi_transfer(&spi, test);
-        
-        if (spi_ontvangen == -1)
-        {
-            printf("spi is gestopt met functioneren\n");
 
-            return;
-        }
-        */
-        //printf(" %02x", spi_ontvangen);
         if (!(ticks % 16))
-            printf(" %x\n (%02x) ", test, wifi_teller);
+            printf("  (%02x) ", wifi_teller);
 
      // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
